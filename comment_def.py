@@ -7,8 +7,11 @@ class CommentDef:
         self.block_regex = block_regex
         self.line_regex = line_regex
 		
-cstyle = CommentDef('/\*(.|\r|\n)*?\*/', '//.*')
-python = CommentDef(None, '#.*')
+cstyle = CommentDef('/\*(.|\r|\n)*?\*/', '([/]{2})(.*)')
+python = CommentDef('([\']{3})([.|\r|\n]*?)([\']{3})', '#.*')
+perl = CommentDef('(=begin)([.|\r|\n]*?)(=cut)', '#.*')
+ruby = CommentDef('(=begin)([.|\r|\n]*?)(=end)', '#.*'
 
 comment_dict = {'c': cstyle, 'cpp': cstyle, 'cs': cstyle,
-                'py': python}
+				'java': cstyle, 'js': cstyle, 'py': python, 
+				'pl': perl, 'rb': ruby}
