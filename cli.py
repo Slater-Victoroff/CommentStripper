@@ -31,11 +31,17 @@ def getFiles(directoryDictionary):
 	path = os.path.abspath(__file__).rstrip('cli.py')
 	allFiles = []
 	for key in directoryDictionary:
-		key = path + key
-		for (current,dirs,files) in os.walk(key):
-			if files != []:
-				allFiles.append(files)
-	allFiles = list(itertools.chain(*allFiles))
+		localPath = path + key
+		if directoryDictionary[key] == 'recursive':
+			for (current,dirs,files) in os.walk(localPath):
+				if files != []:
+					allFiles.extend(files)
+		else:
+			for (current,dirs,files) in os.walk(localPath):
+				if files != []:
+					allFiles.extend(files)
+				break
+
 	return allFiles
 
-print getFiles(parseCommandLineArguments(allArguments=["cli.py",".."]))
+print getFiles(parseCommandLineArguments(allArguments=["cli.py","..","-r","../.."]))
