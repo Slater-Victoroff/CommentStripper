@@ -1,4 +1,6 @@
 import sys
+import os
+import itertools
 
 def parseCommandLineArguments(tagDictionary = {"-r":"recursive"}, allArguments = sys.argv):
 	'''For now just allow the recursive tag, and assume every passed
@@ -16,9 +18,24 @@ def parseCommandLineArguments(tagDictionary = {"-r":"recursive"}, allArguments =
 					if allArguments[i+1] == key:
 						mapping = tagDictionary[key]
 				except IndexError:
+					#Should only get an index error while checking the
+					#last element of the provided arguments
 					print "Near The End"
 					continue
 			directoryDictionary[allArguments[i]] = mapping
 	return directoryDictionary
-	
-print parseCommandLineArguments()
+
+def getFiles(directoryDictionary):
+	'''Takes the dictionary of filepaths and tags and returns a list of 
+	all files in the associated directories'''
+	path = os.path.abspath(__file__).rstrip('cli.py')
+	allFiles = []
+	for key in directoryDictionary:
+		key = path + key
+		for (current,dirs,files) in os.walk(key):
+			if files != []:
+				allFiles.append(files)
+	allFiles = list(itertools.chain(*allFiles))
+	return allFiles
+
+print getFiles(parseCommandLineArguments(allArguments=["cli.py",".."]))
