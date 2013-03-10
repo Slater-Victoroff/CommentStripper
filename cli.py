@@ -43,5 +43,15 @@ def getFiles(directoryDictionary):
 				break
 
 	return allFiles
+	
+def mapFilesToTypes(allFiles):
+	filesToTypes = {}
+	for path in allFiles:
+		filesToTypes[path] = getFileEnding(path)
+	return filesToTypes
+	
+def getFileEnding(fileName, delimiter="."):
+	return fileName.rpartition(delimiter)
+	
 
 print getFiles(parseCommandLineArguments(allArguments=["cli.py","..","-r","../.."]))
