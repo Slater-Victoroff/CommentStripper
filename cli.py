@@ -47,7 +47,7 @@ def getFiles(directoryDictionary):
 def mapFilesToTypes(allFiles):
 	filesToTypes = {}
 	for path in allFiles:
-		filesToTypes[path] = getFileEnding(path)
+		filesToTypes[path] = getFileEnding(path).strip().lower()
 	return filesToTypes
 	
 def getFileEnding(fileName, delimiter="."):
